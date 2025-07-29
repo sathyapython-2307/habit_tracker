@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-light">
+    <div class="container py-4">
+        <h1 class="text-center mb-4">Habit Tracker</h1>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <form action="/add_habit" method="POST">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="name" placeholder="New habit (e.g., Exercise)" required>
+                        <button class="btn btn-primary" type="submit">Add Habit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for habit in habits %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ habit.name }}</h5>
+                        <p class="card-text">Current streak: <strong>{{ habit.streak }} days</strong></p>
+                        <form action="/complete/{{ habit.id }}" method="POST">
+                            <button type="submit" class="btn btn-success">Mark Complete</button>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <canvas id="chart-{{ habit.id }}"></canvas>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="/static/js/charts.js"></script>
+</body>
+</html>
